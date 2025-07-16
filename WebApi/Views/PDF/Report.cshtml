@@ -1,0 +1,444 @@
+﻿@using WebApi
+@using WebApi.Controllers
+@model ReportViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Reporte Illumina COVIDSeq</title>
+
+    <style>
+
+        :root {
+            --color-text-dark: #333;
+            --color-text-medium: #888;
+            --color-red-medium: #c00000;
+            --color-green-medium: #008000;
+            --color-grey-lighten4: #f5f5f5;
+            --color-grey-lighten3: #e0e0e0;
+            --color-warning-background: #ffeaea;
+            --font-size-base: 10px;
+            --font-size-sm: 8px;
+            --font-size-xs: 7.5px;
+            --font-size-xxs: 6.5px;
+            --spacing-sm: 10px;
+            --spacing-md: 15px;
+            --spacing-lg: 20px;
+            --spacing-xl: 30px;
+        }
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: var(--font-size-base);
+            color: var(--color-text-dark);
+        }
+
+        .report-page-container {
+            margin: var(--spacing-xl);
+        }
+
+
+        .report-text--bold {
+            font-weight: bold;
+        }
+
+        .report-text--semi-bold {
+            font-weight: 600;
+        }
+
+        .report-text--extra-bold {
+            font-weight: 800;
+        }
+
+
+        .report-spacing--sm {
+            margin-top: var(--spacing-sm);
+        }
+
+        .report-spacing--md {
+            margin-top: var(--spacing-md);
+        }
+
+        .report-spacing--lg {
+            margin-top: var(--spacing-lg);
+        }
+
+
+        .report-card {
+            padding: 8px;
+        }
+
+        .report-card--light-grey {
+            background-color: var(--color-grey-lighten4);
+        }
+
+
+        .report-header {
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color-grey-lighten3);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .report-header__logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .report-header__logo-img {
+            height: 20px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .report-header__title {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-dark);
+            font-weight: 600;
+        }
+
+        .report-header__date-info {
+            text-align: right;
+            font-size: var(--font-size-sm);
+        }
+
+
+        .report-content {
+            pero se controla con margins y paddings internos */
+        }
+
+
+        .report-alert-box {
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            font-size: var(--font-size-sm);
+        }
+
+        .report-alert-box--warning {
+            border: 1px solid var(--color-red-medium);
+            background-color: var(--color-warning-background);
+        }
+
+        .report-alert-box--info {
+            background-color: var(--color-grey-lighten4);
+        }
+
+        .report-icon {
+            flex-shrink: 0;
+        }
+
+        .report-icon--small {
+            width: 10px;
+            height: 10px;
+        }
+
+        .report-alert-box__text {
+            padding-left: 10px;
+            font-weight: 800;
+            font-size: var(--font-size-sm);
+        }
+
+        .report-alert-box__text--warning {
+            color: var(--color-red-medium);
+        }
+
+        .report-alert-box__text--info {
+            color: var(--color-text-dark);
+        }
+
+
+
+        .report-heading {
+            margin: 0;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+
+        .report-section-grid {
+            display: flex;
+            gap: 5px;
+            align-items: flex-start;
+        }
+
+        .report-section-grid__item {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .report-section-grid__item:first-child {
+                flex: 1;
+            }
+
+        .report-section-grid__item--flex-grow {
+            flex: 2.8;
+        }
+
+
+
+        .report-info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .report-info-table td {
+                padding: 1px 0;
+                font-size: var(--font-size-xs);
+                white-space: nowrap;
+            }
+
+        .report-info-table__label {
+            color: var(--color-text-medium);
+        }
+
+        .report-info-table__value {
+            font-weight: 600;
+        }
+
+
+        .report-quality-control-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        .report-quality-control-grid__column {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .report-quality-control-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+            .report-quality-control-table td {
+                padding: 1px 0;
+                font-size: var(--font-size-xs);
+                white-space: nowrap;
+            }
+
+        .report-quality-control-table__label {
+            color: var(--color-text-medium);
+        }
+
+        .report-quality-control-table__label--indent {
+            padding-left: 10px;
+        }
+
+        .report-quality-control-table__status {
+            font-size: var(--font-size-xxs);
+            font-weight: 800;
+            text-align: right;
+            width: 40px;
+        }
+
+
+
+        .report-data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-data-table__header {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-medium);
+            text-align: left;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid var(--color-grey-lighten3);
+            white-space: nowrap;
+        }
+
+        .report-data-table__cell {
+            font-size: var(--font-size-sm);
+            text-align: left;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--color-grey-lighten3);
+            white-space: nowrap;
+        }
+
+
+        .report-footer {
+            height: 30px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding-top: var(--spacing-sm);
+        }
+
+        .report-page-number-box {
+            background-color: var(--color-grey-lighten4);
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xxs);
+            color: var(--color-text-dark);
+        }
+    </style>
+
+</head>
+<body>
+    <div class="report-page-container">
+        <header class="report-header">
+            <div class="report-header__logo">
+                <img src="@Model.LogoUrl" alt="Illumina Logo" class="report-header__logo-img" />
+                <span class="report-header__title">COVIDSeq<sup><small>TM</small></sup> Test</span>
+            </div>
+            <div class="report-header__date-info">
+                <span>Report Date </span><span class="report-text--bold">@Model.ReportDate</span>
+            </div>
+        </header>
+
+        <main class="report-content">
+            <div class="report-alert-box report-alert-box--warning">
+                <img src="@Model.WarningIconUrl" alt="Warning Icon" class="report-icon report-icon--small" />
+                <span class="report-alert-box__text report-alert-box__text--warning">For use under an Emergency Use Authorization (EUA) Only</span>
+            </div>
+
+            <div class="report-spacing--lg"></div>
+
+            <section class="report-section-grid">
+                <div class="report-section-grid__item">
+                    <h3 class="report-heading">Run Information</h3>
+                    <div class="report-spacing--sm"></div>
+                    <div class="report-card report-card--light-grey">
+                        <table class="report-info-table">
+                            <tr>
+                                <td class="report-info-table__label">Run ID:</td>
+                                <td class="report-info-table__value">@Model.RunId</td>
+                            </tr>
+                            <tr>
+                                <td class="report-info-table__label">Run Date:</td>
+                                <td class="report-info-table__value">@Model.RunDate</td>
+                            </tr>
+                            <tr>
+                                <td class="report-info-table__label">Instrument serial:</td>
+                                <td class="report-info-table__value">@Model.InstrumentSerial</td>
+                            </tr>
+                            <tr>
+                                <td class="report-info-table__label">Flow Cell ID:</td>
+                                <td class="report-info-table__value">@Model.FlowCellId</td>
+                            </tr>
+                            <tr>
+                                <td class="report-info-table__label">Software Version:</td>
+                                <td class="report-info-table__value">@Model.SoftwareVersion</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="report-section-grid__item report-section-grid__item--flex-grow">
+                    <h3 class="report-heading">Quality Control</h3>
+                    <div class="report-spacing--sm"></div>
+                    <div class="report-card report-card--light-grey">
+                        <div class="report-quality-control-grid">
+                            @foreach (var lane in Model.QualityControlLanes)
+                            {
+                                <div class="report-quality-control-grid__column">
+                                    <table class="report-quality-control-table">
+                                        <tr>
+                                            <td class="report-quality-control-table__label">@lane.Name</td>
+                                            <td class="report-quality-control-table__status" style="color: @lane.StatusColor;">@lane.Status</td>
+                                        </tr>
+                                        @foreach (var indexSet in lane.IndexSets)
+                                        {
+                                            <tr>
+                                                <td class="report-quality-control-table__label report-quality-control-table__label--indent">@indexSet.Name</td>
+                                                <td class="report-quality-control-table__status" style="color: @indexSet.StatusColor;">@indexSet.Status</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="report-spacing--lg"></div>
+
+            <h3 class="report-heading">Invalid Results (@Model.DetectedSamples.Count(s => s.Result == "Invalid"))</h3> @* Asumo que quieres contar los "Invalid" aquí, ajusta si es necesario *@
+            <div class="report-spacing--sm"></div>
+            <div class="report-alert-box report-alert-box--info report-card--light-grey">
+                <img src="@Model.InfoIconUrl" alt="Info Icon" class="report-icon report-icon--small" />
+                <span class="report-alert-box__text report-alert-box__text--info">None</span>
+            </div>
+
+            <div class="report-spacing--lg"></div>
+
+            <h3 class="report-heading">SARS-CoV-2 Detected (@Model.DetectedSamples.Count)</h3>
+            <table class="report-data-table">
+                <thead>
+                    <tr>
+                        <th class="report-data-table__header">Sample ID</th>
+                        <th class="report-data-table__header">Intern Control</th>
+                        <th class="report-data-table__header">Result</th>
+                        <th class="report-data-table__header">Consensus Sequence</th>
+                        <th class="report-data-table__header">Lane / Index Set</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sample in Model.DetectedSamples)
+                    {
+                        <tr>
+                            <td class="report-data-table__cell">@sample.SampleId</td>
+                            <td class="report-data-table__cell">@sample.InternalControl</td>
+                            <td class="report-data-table__cell report-text--bold" style="color: @sample.ResultColor;">@sample.Result</td>
+                            <td class="report-data-table__cell">@sample.ConsensusSequence</td>
+                            <td class="report-data-table__cell">@sample.LaneIndexSet</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="report-spacing--lg"></div>
+
+            <h3 class="report-heading">SARS-CoV-2 Not Detected (@Model.NotDetectedSamples.Count)</h3>
+            <table class="report-data-table">
+                <thead>
+                    <tr>
+                        <th class="report-data-table__header">Sample ID</th>
+                        <th class="report-data-table__header">Intern Control</th>
+                        <th class="report-data-table__header">Result</th>
+                        <th class="report-data-table__header">Consensus Sequence</th>
+                        <th class="report-data-table__header">Lane / Index Set</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sample in Model.NotDetectedSamples)
+                    {
+                        <tr>
+                            <td class="report-data-table__cell">@sample.SampleId</td>
+                            <td class="report-data-table__cell">@sample.InternalControl</td>
+                            <td class="report-data-table__cell report-text--bold">@sample.Result</td>
+                            <td class="report-data-table__cell">@sample.ConsensusSequence</td>
+                            <td class="report-data-table__cell">@sample.LaneIndexSet</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </main>
+
+        <footer class="report-footer">
+            <div class="report-page-number-box">
+                <span class="report-text--extra-bold">1</span> of <span class="report-text--extra-bold">52</span> @* Hardcoded como en la imagen, para paginación real se requiere JS o CSS Print *@
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

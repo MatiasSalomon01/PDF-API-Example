@@ -1,0 +1,282 @@
+﻿/* Variables CSS para colores y tamaños */
+:root {
+    --color-text-dark: #333;
+    --color-text-medium: #888;
+    --color-red-medium: #c00000; /* Un rojo más preciso para el ejemplo */
+    --color-green-medium: #008000; /* Verde de la imagen */
+    --color-grey-lighten4: #f5f5f5; /* Fondo claro para las secciones */
+    --color-grey-lighten3: #e0e0e0; /* Bordes de tabla */
+    --color-warning-background: #ffeaea; /* Fondo para el warning */
+
+    --font-size-base: 10px;
+    --font-size-sm: 8px;
+    --font-size-xs: 7.5px;
+    --font-size-xxs: 6.5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente similar a la imagen */
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size-base);
+    color: var(--color-text-dark);
+}
+
+.report-page-container {
+    margin: var(--spacing-xl); /* Equivalente a page.Margin(30) */
+}
+
+/* Utilidades de texto */
+.report-text--bold {
+    font-weight: bold;
+}
+
+.report-text--semi-bold {
+    font-weight: 600;
+}
+
+.report-text--extra-bold {
+    font-weight: 800;
+}
+
+/* Componentes de espaciado */
+.report-spacing--sm {
+    margin-top: var(--spacing-sm);
+}
+
+.report-spacing--md {
+    margin-top: var(--spacing-md);
+}
+
+.report-spacing--lg {
+    margin-top: var(--spacing-lg);
+}
+
+/* Card o contenedor de fondo */
+.report-card {
+    padding: 8px;
+}
+
+.report-card--light-grey {
+    background-color: var(--color-grey-lighten4);
+}
+
+/* ==================== Header ==================== */
+.report-header {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-grey-lighten3); /* Línea divisoria, no en QuestPDF original pero común en HTML */
+    padding-bottom: 10px; /* Separación del contenido */
+    margin-bottom: 10px; /* Separación del contenido */
+}
+
+.report-header__logo {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre el logo y el texto */
+}
+
+.report-header__logo-img {
+    height: 20px; /* Ajusta el tamaño del logo para que se vea como en la imagen */
+    width: auto;
+    object-fit: contain; /* Para asegurar que la imagen se ajuste sin distorsionarse */
+}
+
+.report-header__title {
+    font-size: var(--font-size-sm); /* Tamaño del texto del título "COVIDSeq Test" */
+    color: var(--color-text-dark);
+    font-weight: 600;
+}
+
+.report-header__date-info {
+    text-align: right;
+    font-size: var(--font-size-sm);
+}
+
+/* ==================== Content ==================== */
+.report-content {
+    /* No se aplica padding-top aquí directamente para seguir el flujo normal del documento,
+       pero se controla con margins y paddings internos */
+}
+
+/* Alertas (Warning/Info boxes) */
+.report-alert-box {
+    min-height: 30px; /* min-height para que crezca si el texto es largo */
+    display: flex;
+    align-items: center;
+    padding: 8px 12px; /* Ajusta el padding para que el contenido no pegue a los bordes */
+    font-size: var(--font-size-sm);
+}
+
+.report-alert-box--warning {
+    border: 1px solid var(--color-red-medium);
+    background-color: var(--color-warning-background);
+}
+
+.report-alert-box--info {
+    background-color: var(--color-grey-lighten4); /* Como la imagen */
+}
+
+.report-icon {
+    flex-shrink: 0;
+}
+
+.report-icon--small {
+    width: 10px;
+    height: 10px;
+}
+
+.report-alert-box__text {
+    padding-left: 10px;
+    font-weight: 800; /* ExtraBold */
+    font-size: var(--font-size-sm);
+}
+
+.report-alert-box__text--warning {
+    color: var(--color-red-medium);
+}
+
+.report-alert-box__text--info {
+    color: var(--color-text-dark); /* Color por defecto, negro */
+}
+
+
+/* Títulos de sección */
+.report-heading {
+    margin: 0; /* Elimina el margin por defecto del h3 */
+    font-size: 1em; /* Se basa en el font-size del body (10px) */
+    font-weight: bold;
+}
+
+/* Grid de secciones (Run Information y Quality Control) */
+.report-section-grid {
+    display: flex; /* Usamos flex para las dos columnas principales */
+    gap: 5px; /* Espaciado entre columnas (x.Spacing(5)) */
+    align-items: flex-start; /* Alinea las secciones en la parte superior */
+}
+
+.report-section-grid__item {
+    display: flex;
+    flex-direction: column;
+}
+
+    .report-section-grid__item:first-child {
+        flex: 1; /* El primer item toma 1 parte del espacio */
+    }
+
+.report-section-grid__item--flex-grow {
+    flex: 2.8; /* El segundo item toma 2.8 partes del espacio, para replicar RelativeItem(2.8f) */
+}
+
+
+/* Tabla de Run Information */
+.report-info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .report-info-table td {
+        padding: 1px 0; /* PaddingVertical(1) */
+        font-size: var(--font-size-xs);
+        white-space: nowrap; /* Evita que el texto se rompa */
+    }
+
+.report-info-table__label {
+    color: var(--color-text-medium);
+}
+
+.report-info-table__value {
+    font-weight: 600; /* SemiBold */
+}
+
+/* Grid de Quality Control (las 4 columnas internas) */
+.report-quality-control-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Cuatro columnas de igual ancho */
+    gap: 0; /* No hay gap entre las "celdas" del grid */
+}
+
+.report-quality-control-grid__column {
+    display: flex; /* Para centrar la tabla dentro de la columna del grid */
+    justify-content: center; /* AlignCenter */
+    align-items: center; /* AlignMiddle */
+}
+
+.report-quality-control-table {
+    width: 100%; /* La tabla ocupa todo el ancho de su columna del grid */
+    border-collapse: collapse;
+    text-align: left; /* Ajustado para que el "Lane 1" y "Index Set A" se alineen a la izquierda como en la imagen */
+}
+
+    .report-quality-control-table td {
+        padding: 1px 0;
+        font-size: var(--font-size-xs);
+        white-space: nowrap; /* Evita que el texto se rompa */
+    }
+
+.report-quality-control-table__label {
+    color: var(--color-text-medium);
+}
+
+.report-quality-control-table__label--indent {
+    padding-left: 10px; /* Para simular el "└" */
+}
+
+.report-quality-control-table__status {
+    font-size: var(--font-size-xxs);
+    font-weight: 800; /* ExtraBold */
+    text-align: right; /* Alinea el "PASS" a la derecha */
+    width: 40px; /* Ancho fijo para las celdas de estado para que se alineen bien */
+}
+
+
+/* Tablas de resultados (Detected/Not Detected) */
+.report-data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-data-table__header {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-medium);
+    text-align: left;
+    padding-top: 2px;
+    padding-bottom: 2px; /* PaddingVertical(2) */
+    border-bottom: 1px solid var(--color-grey-lighten3);
+    white-space: nowrap;
+}
+
+.report-data-table__cell {
+    font-size: var(--font-size-sm);
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px; /* PaddingVertical(4) */
+    border-bottom: 1px solid var(--color-grey-lighten3);
+    white-space: nowrap;
+}
+
+/* ==================== Footer ==================== */
+.report-footer {
+    height: 30px;
+    display: flex;
+    justify-content: flex-end; /* AlignRight */
+    align-items: flex-end; /* AlignBottom */
+    padding-top: var(--spacing-sm);
+}
+
+.report-page-number-box {
+    background-color: var(--color-grey-lighten4);
+    padding: 5px 10px; /* PaddingVertical(5).PaddingHorizontal(10) */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* AlignMiddle y AlignCenter */
+    font-size: var(--font-size-xxs); /* Reducido para que se vea como en la imagen */
+    color: var(--color-text-dark);
+}
