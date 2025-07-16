@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using QuestPDF.Fluent;
+using WebApi.Models;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace WebApi.Controllers;
