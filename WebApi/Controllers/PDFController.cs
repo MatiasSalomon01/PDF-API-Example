@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using QuestPDF.Fluent;
+using System.Runtime.InteropServices;
 using WebApi.Models;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
@@ -41,11 +42,18 @@ public class PDFController(IRazorViewEngine viewEngine,ITempDataProvider tempDat
 
         await new BrowserFetcher().DownloadAsync();
 
-        await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        var launchOptions = new LaunchOptions
         {
             Headless = true,
             Args = ["--no-sandbox"]
-        });
+        };
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            launchOptions.ExecutablePath = "/usr/bin/chromium";
+        }
+
+        await using var browser = await Puppeteer.LaunchAsync(launchOptions);
 
         await using var page = await browser.NewPageAsync();
         await page.SetContentAsync(html, new NavigationOptions { WaitUntil = [WaitUntilNavigation.Networkidle0] });
